@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { auth } from "../../../firebaseConfig"; // Your Firebase config file
 import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore"; // Modular SDK imports
 import { db } from "../../../firebaseConfig"; 
+import { onAuthStateChanged } from "firebase/auth";
 
 export default function NewRound() {
   const [scores, setScores] = useState({
@@ -22,12 +23,18 @@ export default function NewRound() {
   const [submittedScores, setSubmittedScores] = useState(null); // Store submitted scores
   const [canSubmit, setCanSubmit] = useState(true); // Track if user can submit
 
-  // Check if user is logged in on mount
+  // Check if user is logged in from Firebase
   useEffect(() => {
-    const currentUser = JSON.parse(localStorage.getItem("user"));
-    if (currentUser) {
-      setUser(currentUser); // Set user if logged in
-    }
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser); // Set user if logged in
+      } else {
+        setUser(null); // Set user to null if not logged in
+      }
+    });
+
+    // Cleanup the listener when the component unmounts
+    return () => unsubscribe();
   }, []);
 
   useEffect(() => {
@@ -194,7 +201,7 @@ export default function NewRound() {
           })}
         </div>
       )}
-{canSubmit ?
+{canSubmit ? 
   <button
         onClick={handleSubmit}
         className="mt-6 bg-blue-500 text-white py-2 px-6 rounded"
@@ -203,7 +210,6 @@ export default function NewRound() {
         Osturağa bas
       </button>
       : null}
-
    
     </div>
   );

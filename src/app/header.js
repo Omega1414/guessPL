@@ -115,12 +115,12 @@ export default function Header() {
         <div>
           <span className="text-white text-sm xl:text-xl">Salam əlökü, {userName || "Guest"}</span> {/* Display name if available */}
           
-          <button
+          {/* <button
             onClick={handleLogout}
             className="mx-2 bg-red-500 py-2 px-4 rounded"
           >
             Logout
-          </button>
+          </button> */}
         </div>
       ) : (
         <div className="hidden">

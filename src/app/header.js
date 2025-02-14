@@ -123,7 +123,7 @@ export default function Header() {
           </button> */}
         </div>
       ) : (
-        <div>
+        <div className="hidden">
           {/* <button
             onClick={() => setIsSignUp(true)}
             className="mx-2 bg-green-500 py-2 px-4 rounded"
@@ -136,7 +136,7 @@ export default function Header() {
           >
             Login
           </button> */}
-          <h1>Bıy</h1>
+        
         </div>
       )} 
 

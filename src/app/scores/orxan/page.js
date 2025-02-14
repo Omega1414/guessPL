@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { getFirestore, collection, doc, getDocs, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../../../firebaseConfig";
 
-export default function VasifResults() {
+export default function OrxanResults() {
   const [userScores, setUserScores] = useState([]);
   const [error, setError] = useState("");
 
@@ -87,8 +87,8 @@ export default function VasifResults() {
           const userData = userDoc.data();
           const userName = userData.name || "Anonymous";
           
-          // Filter only user "Vasif"
-          if (userName !== "Vasif") continue;
+        
+          if (userName !== "Orxan") continue;
 
           const guessRef = collection(db, "users", userDoc.id, "guess");
           const guessSnapshot = await getDocs(guessRef);
@@ -174,8 +174,9 @@ export default function VasifResults() {
 
   return (
     <div className="flex flex-col items-center p-6">
-    <title>Başın qalıb burda?</title>
-      <h1 className="text-2xl font-semibold">Başın qalıb burda?</h1>
+   
+      <h1 className="text-2xl font-semibold">Təxminlər</h1>
+      
       <div className="gap-3 mt-6 grid grid-cols-1 xl:grid-cols-2 h-full items-center justify-center my-auto">
         {userScores.map(({ userName, roundName, roundResults, roundPoints }, index) => (
           <div key={index} className="border p-4 rounded-lg shadow-lg w-full xl:w-[600px]">

@@ -1,0 +1,159 @@
+"use client";
+import { useState, useEffect } from "react";
+import { auth } from "../../firebaseConfig"; // Your Firebase config file
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore"; // We need getDoc to fetch user data from Firestore
+import { db } from "../../firebaseConfig";
+import Link from "next/link";
+
+export default function Header() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isSignUp, setIsSignUp] = useState(true); // Toggle between Sign Up and Login forms
+  const [user, setUser] = useState(null); // Track authenticated user
+  const [loading, setLoading] = useState(true); // Loading state to avoid UI flicker
+  const [userName, setUserName] = useState(""); // To store the user's name
+
+  useEffect(() => {
+    // Check if a user is already logged in from localStorage
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser) {
+      setUser(storedUser); // If a user exists in localStorage, set it to the state
+    }
+
+    // Listen for authentication state changes
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser); // Set the user if logged in
+        localStorage.setItem("user", JSON.stringify(currentUser)); // Save to localStorage
+
+        // Fetch the user name from Firestore
+        const fetchUserName = async () => {
+          const userDoc = doc(db, "users", currentUser.uid); // Access user document by UID
+          const docSnap = await getDoc(userDoc);
+          if (docSnap.exists()) {
+            setUserName(docSnap.data().name); // Get name field from user document
+          } else {
+            console.log("No such user in Firestore!");
+          }
+        };
+
+        fetchUserName();
+      } else {
+        setUser(null); // No user, remove from state
+        setUserName(""); // Clear the name as well
+        localStorage.removeItem("user"); // Clear user data from localStorage if logged out
+      }
+      setLoading(false); // Once authentication check is done, set loading to false
+    });
+
+    // Cleanup the listener when the component unmounts
+    return () => unsubscribe();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      let userCredential;
+      if (isSignUp) {
+        // Sign up user with email and password
+        userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      } else {
+        // Login user with email and password
+        userCredential = await signInWithEmailAndPassword(auth, email, password);
+        alert("Logged in successfully!");
+      }
+      
+      const user = userCredential.user;
+
+      // Save user to localStorage
+      localStorage.setItem("user", JSON.stringify(user));
+      setEmail("");
+      setPassword("");
+    } catch (err) {
+      setError("Error: " + err.message);
+    }
+  };
+
+  const handleLogout = () => {
+    signOut(auth).then(() => {
+      setUser(null); // Clear the user from state
+      setUserName(""); // Clear the name as well
+      localStorage.removeItem("user"); // Remove user from localStorage
+      alert("Logged out successfully!");
+    }).catch((err) => {
+      setError("Error: " + err.message);
+    });
+  };
+
+  if (loading) {
+    return <div>Loading...</div>; // Show a loading indicator while checking authentication state
+  }
+
+  return (
+    <div className="header flex justify-between items-center p-4 bg-blue-900 text-white">
+      <Link href={"/"}> 
+        <h1 className="text-sm xl:text-2xl">Kaybedenler klübü</h1>
+      </Link>
+      {/* Conditional Rendering: Show Login/Sign Up if not logged in */}
+      {user ? (
+        <div>
+          <span className="text-white text-sm xl:text-xl">Salam əlökü, {userName || "Guest"}</span> {/* Display name if available */}
+          
+          {/* <button
+            onClick={handleLogout}
+            className="mx-2 bg-red-500 py-2 px-4 rounded"
+          >
+            Logout
+          </button> */}
+        </div>
+      ) : (
+        <div>
+          <button
+            onClick={() => setIsSignUp(true)}
+            className="mx-2 bg-green-500 py-2 px-4 rounded"
+          >
+            Sign Up
+          </button>
+          <button
+            onClick={() => setIsSignUp(false)}
+            className="mx-2 bg-blue-500 py-2 px-4 rounded"
+          >
+            Login
+          </button>
+        </div>
+      )}
+
+      {error && <p className="text-red-500 mt-2">{error}</p>}
+
+      {/* Form for Sign Up / Login */}
+      {!user && (
+        <form onSubmit={handleSubmit} className="mt-4">
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="border p-2 rounded text-black"
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="border p-2 rounded mt-2 text-black"
+            required
+          />
+          <button
+            type="submit"
+            className="mt-4 bg-blue-500 text-white py-2 px-4 rounded"
+          >
+            {isSignUp ? "Sign Up" : "Login"}
+          </button>
+        </form>
+      )}
+    </div>
+  );
+}

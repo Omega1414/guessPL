@@ -71,9 +71,9 @@ export default function SubmitResults() {
 
     try {
       const resultsRef = collection(db, "matchResults"); // Collection for all match results
-      const round26Ref = doc(resultsRef, "round26"); 
+      const round25Ref = doc(resultsRef, "round25"); 
 
-      await setDoc(round26Ref, { scores: scores });
+      await setDoc(round25Ref, { scores: scores });
 
       alert("Scores submitted successfully!");
 

@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { auth } from "../../firebaseConfig"; // Your Firebase config file
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore"; // We need getDoc to fetch user data from Firestore
+import { doc, getDoc, setDoc } from "firebase/firestore"; // We need setDoc to create user data in Firestore
 import { db } from "../../firebaseConfig";
 import Link from "next/link";
 
@@ -10,7 +10,7 @@ export default function Header() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [isSignUp, setIsSignUp] = useState(true); // Toggle between Sign Up and Login forms
+  const [isSignUp, setIsSignUp] = useState(false); // Toggle between Sign Up and Login forms
   const [user, setUser] = useState(null); // Track authenticated user
   const [loading, setLoading] = useState(true); // Loading state to avoid UI flicker
   const [userName, setUserName] = useState(""); // To store the user's name
@@ -59,16 +59,27 @@ export default function Header() {
       if (isSignUp) {
         // Sign up user with email and password
         userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        
+        // Get the signed-up user
+        const user = userCredential.user;
+
+        // Save user to localStorage
+        localStorage.setItem("user", JSON.stringify(user));
+        
+        // Now create the user document in Firestore
+        await setDoc(doc(db, "users", user.uid), {
+          email: user.email,
+          name: "", // You can optionally set a default value for the user name
+          createdAt: new Date(),
+        });
+
+        alert("User created successfully!");
       } else {
         // Login user with email and password
         userCredential = await signInWithEmailAndPassword(auth, email, password);
         alert("Logged in successfully!");
       }
-      
-      const user = userCredential.user;
 
-      // Save user to localStorage
-      localStorage.setItem("user", JSON.stringify(user));
       setEmail("");
       setPassword("");
     } catch (err) {
@@ -97,7 +108,10 @@ export default function Header() {
         <h1 className="text-sm xl:text-2xl">Kaybedenler klübü</h1>
       </Link>
       {/* Conditional Rendering: Show Login/Sign Up if not logged in */}
-      {user ? (
+     
+
+      
+   {user ? (
         <div>
           <span className="text-white text-sm xl:text-xl">Salam əlökü, {userName || "Guest"}</span> {/* Display name if available */}
           
@@ -110,20 +124,21 @@ export default function Header() {
         </div>
       ) : (
         <div>
-          <button
+          {/* <button
             onClick={() => setIsSignUp(true)}
             className="mx-2 bg-green-500 py-2 px-4 rounded"
           >
             Sign Up
-          </button>
-          <button
+          </button> */}
+          {/* <button
             onClick={() => setIsSignUp(false)}
             className="mx-2 bg-blue-500 py-2 px-4 rounded"
           >
             Login
-          </button>
+          </button> */}
+          <h1>Bıy</h1>
         </div>
-      )}
+      )} 
 
       {error && <p className="text-red-500 mt-2">{error}</p>}
 

@@ -75,11 +75,11 @@ export default function Results() {
         const usersSnapshot = await getDocs(collection(db, "users"));
         const userScoresData = [];
 
-        // Fetch all rounds dynamically from the matchResults collection
+      
         const matchResultsSnapshot = await getDocs(collection(db, "matchResults"));
         const matchResults = {};
 
-        // Create an object with round names as keys and their data as values
+    
         matchResultsSnapshot.forEach(doc => {
           matchResults[doc.id] = doc.data().scores;
         });
@@ -92,10 +92,10 @@ export default function Results() {
           const guessSnapshot = await getDocs(guessRef);
 
           guessSnapshot.forEach((guessDoc) => {
-            const roundName = guessDoc.id; // dynamically get the round name from guess collection
+            const roundName = guessDoc.id; 
             const scores = guessDoc.data().scores;
 
-            let roundPoints = 0; // this will hold the points for the current round
+            let roundPoints = 0; 
 
             const roundResults = [];
 
@@ -106,7 +106,7 @@ export default function Results() {
                 const score = scores[game]?.score || "";
                 const homeScore = score.charAt(0);
                 const awayScore = score.charAt(1);
-                const resultScore = matchResults[roundName]?.[game]?.score || ""; // dynamically fetch result for the round
+                const resultScore = matchResults[roundName]?.[game]?.score || ""; 
 
                 const comparison = compareScores(score, resultScore);
                 const goalCount = goalCountMessage(score, resultScore);

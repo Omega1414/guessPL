@@ -21,11 +21,11 @@ export default function Leaderboard() {
 
           let totalPoints = 0;
 
-          // Loop through all rounds (round25 to round38)
+      
           for (let round = 25; round <= 38; round++) {
             const roundName = `round${round}`;
 
-            // Check if the user has points for this round in the 'users' collection
+        
             if (userData[roundName]) {
               totalPoints += userData[roundName]; // Add points for the round
             }

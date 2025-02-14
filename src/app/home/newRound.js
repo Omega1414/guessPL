@@ -5,16 +5,16 @@ import { db } from "../../../firebaseConfig";
 
 export default function NewRound() {
   const [scores, setScores] = useState({
-    game1: { teams: "Liverpool - Narva", score1: "", score2: "" },
-    game2: { teams: "Dortmund - Chelsea", score1: "", score2: "" },
-    game3: { teams: "ManCity - ManUnited", score1: "", score2: "" },
-    game4: { teams: "Real Madrid - Watford", score1: "", score2: "" },
-    game5: { teams: "Bayern - Barcelona", score1: "", score2: "" },
-    game6: { teams: "Granada - AC Milan", score1: "", score2: "" },
-    game7: { teams: "Monaco - Osasuna", score1: "", score2: "" },
-    game8: { teams: "Atletico - Sevilla", score1: "", score2: "" },
-    game9: { teams: "Torino - Lazio", score1: "", score2: "" },
-    game10: { teams: "Dinamo - Everton", score1: "", score2: "" },
+    game1: { teams: "Brighton - Chelsea", score1: "", score2: "" },
+    game2: { teams: "Leicester - Arsenal", score1: "", score2: "" },
+    game3: { teams: "Aston Villa - Ipswich", score1: "", score2: "" },
+    game4: { teams: "Fulham - Nottingham", score1: "", score2: "" },
+    game5: { teams: "ManCity - Newcastle", score1: "", score2: "" },
+    game6: { teams: "Southampton - Bournemouth", score1: "", score2: "" },
+    game7: { teams: "West Ham - Brentford", score1: "", score2: "" },
+    game8: { teams: "Palace - Everton", score1: "", score2: "" },
+    game9: { teams: "Liverpool - Wolves", score1: "", score2: "" },
+    game10: { teams: "Tottenham - ManUtd", score1: "", score2: "" },
   });
 
   const [error, setError] = useState("");
@@ -34,7 +34,7 @@ export default function NewRound() {
     const checkPreviousSubmission = async () => {
       if (user) {
         const userRef = doc(db, "users", user.uid); // Reference to user's document
-        const guessRef = doc(userRef, "guess", "round26"); // Fetching round27 (update if you change round name)
+        const guessRef = doc(userRef, "guess", "round25"); 
         const guessDoc = await getDoc(guessRef);
         
         if (guessDoc.exists()) {
@@ -92,7 +92,7 @@ export default function NewRound() {
 
     try {
       const userRef = doc(db, "users", user.uid); 
-      const guessRef = doc(userRef, "guess", "round27"); 
+      const guessRef = doc(userRef, "guess", "round25"); 
 
       await setDoc(guessRef, { scores: combinedScores });
 
@@ -104,16 +104,16 @@ export default function NewRound() {
 
       // Optionally reset the form after successful submission
       setScores({
-        game1: { teams: "Liverpool - Narva", score1: "", score2: "" },
-        game2: { teams: "Dortmund - Chelsea", score1: "", score2: "" },
-        game3: { teams: "ManCity - ManUtd", score1: "", score2: "" },
-        game4: { teams: "Real Madrid - Watford", score1: "", score2: "" },
-        game5: { teams: "Bayern Munich - Barcelona", score1: "", score2: "" },
-        game6: { teams: "Granada - AC Milan", score1: "", score2: "" },
-        game7: { teams: "Monaco - Osasuna", score1: "", score2: "" },
-        game8: { teams: "Atletico Madrid - Sevilla", score1: "", score2: "" },
-        game9: { teams: "Torino - Lazio", score1: "", score2: "" },
-        game10: { teams: "Dinamo - Everton", score1: "", score2: "" },
+        game1: { teams: "Brighton - Chelsea", score1: "", score2: "" },
+        game2: { teams: "Leicester - Arsenal", score1: "", score2: "" },
+        game3: { teams: "Aston Villa - Ipswich", score1: "", score2: "" },
+        game4: { teams: "Fulham - Nottingham", score1: "", score2: "" },
+        game5: { teams: "ManCity - Newcastle", score1: "", score2: "" },
+        game6: { teams: "Southampton - Bournemouth", score1: "", score2: "" },
+        game7: { teams: "West Ham - Brentford", score1: "", score2: "" },
+        game8: { teams: "Palace - Everton", score1: "", score2: "" },
+        game9: { teams: "Liverpool - Wolves", score1: "", score2: "" },
+        game10: { teams: "Tottenham - ManUtd", score1: "", score2: "" },
       });
     } catch (error) {
       console.error("Error submitting scores: ", error);

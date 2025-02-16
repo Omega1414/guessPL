@@ -5,16 +5,17 @@ import { db } from "../../../firebaseConfig";
 
 export default function SubmitResults() {
   const [scores, setScores] = useState({
-    game1: { teams: "Brighton - Chelsea", score:"" },
-    game2: { teams: "Leicester - Arsenal", score:"" },
-    game3: { teams: "Villa - Ipswich", score:"" },
-    game4: { teams: "Fulham - Nottingham", score:"" },
-    game5: { teams: "ManCity - Newcastle", score:"" },
-    game6: { teams: "Soton - Bournemouth", score:"" },
-    game7: { teams: "WestHam - Brentford", score:"" },
-    game8: { teams: "Palace - Everton", score:"" },
-    game9: { teams: "Liverpool - Wolves", score:"" },
-    game10: { teams: "Tottenham - ManUtd", score:"" },
+   game1: { teams: "Villa - Liverpool", score:""  },
+    game2: { teams: "Leicester - Brentford", score:""  },
+    game3: { teams: "Everton - ManUtd", score:""  },
+    game4: { teams: "Arsenal - WestHam", score:""  },
+    game5: { teams: "Bournemouth - Wolves", score:""  },
+    game6: { teams: "Fulham - Palace", score:""  },
+    game7: { teams: "Ipswich - Tottenham", score:""  },
+    game8: { teams: "Soton - Brighton", score:""  },
+    game9: { teams: "Villa - Chelsea", score:""  },
+    game10: { teams: "Newcastle - Nottingham", score:""  },
+    game11: { teams: "ManCity - Liverpool", score:"" },
   });
 
   const [error, setError] = useState("");
@@ -71,7 +72,7 @@ export default function SubmitResults() {
 
     try {
       const resultsRef = collection(db, "matchResults"); // Collection for all match results
-      const round25Ref = doc(resultsRef, "round25"); 
+      const round25Ref = doc(resultsRef, "round26"); 
 
       await setDoc(round25Ref, { scores: scores });
 
@@ -79,16 +80,17 @@ export default function SubmitResults() {
 
       // Optionally, reset the form after successful submission
       setScores({
-        game1: { teams: "Brighton - Chelsea", score:"" },
-        game2: { teams: "Leicester - Arsenal", score:"" },
-        game3: { teams: "Villa - Ipswich", score:"" },
-        game4: { teams: "Fulham - Nottingham", score:"" },
-        game5: { teams: "ManCity - Newcastle", score:"" },
-        game6: { teams: "Soton - Bournemouth", score:"" },
-        game7: { teams: "WestHam - Brentford", score:"" },
-        game8: { teams: "Palace - Everton", score:"" },
-        game9: { teams: "Liverpool - Wolves", score:"" },
-        game10: { teams: "Tottenham - ManUtd", score:"" },
+        game1: { teams: "Villa - Liverpool", score:""  },
+        game2: { teams: "Leicester - Brentford", score:""  },
+        game3: { teams: "Everton - ManUtd", score:""  },
+        game4: { teams: "Arsenal - WestHam", score:""  },
+        game5: { teams: "Bournemouth - Wolves", score:""  },
+        game6: { teams: "Fulham - Palace", score:""  },
+        game7: { teams: "Ipswich - Tottenham", score:""  },
+        game8: { teams: "Soton - Brighton", score:""  },
+        game9: { teams: "Villa - Chelsea", score:""  },
+        game10: { teams: "Newcastle - Nottingham", score:""  },
+        game11: { teams: "ManCity - Liverpool", score:"" },
       });
     } catch (error) {
       console.error("Error submitting scores: ", error);
@@ -125,7 +127,7 @@ export default function SubmitResults() {
                   value={scores[game].score?.[0] || ""}
                   onChange={(e) => handleScoreChange(game, e.target.value + (scores[game].score[1] || ""))}
                   onKeyDown={handleKeyDown}
-                  className="border p-2 rounded mt-2"
+                  className="border p-2 rounded mt-2 text-black"
                   placeholder="Score"
                 />
               </div>
@@ -139,7 +141,7 @@ export default function SubmitResults() {
                   value={scores[game].score?.[1] || ""}
                   onChange={(e) => handleScoreChange(game, (scores[game].score[0] || "") + e.target.value)}
                   onKeyDown={handleKeyDown}
-                  className="border p-2 rounded mt-2"
+                  className="border p-2 rounded mt-2 text-black"
                   placeholder="Score"
                 />
               </div>

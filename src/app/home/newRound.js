@@ -6,16 +6,17 @@ import { onAuthStateChanged } from "firebase/auth";
 
 export default function NewRound() {
   const [scores, setScores] = useState({
-    game1: { teams: "Brighton - Chelsea", score1: "", score2: "" },
-    game2: { teams: "Leicester - Arsenal", score1: "", score2: "" },
-    game3: { teams: "Villa - Ipswich", score1: "", score2: "" },
-    game4: { teams: "Fulham - Nottingham", score1: "", score2: "" },
-    game5: { teams: "ManCity - Newcastle", score1: "", score2: "" },
-    game6: { teams: "Soton - Bournemouth", score1: "", score2: "" },
-    game7: { teams: "WestHam - Brentford", score1: "", score2: "" },
-    game8: { teams: "Palace - Everton", score1: "", score2: "" },
-    game9: { teams: "Liverpool - Wolves", score1: "", score2: "" },
-    game10: { teams: "Tottenham - ManUtd", score1: "", score2: "" },
+    game1: { teams: "Villa - Liverpool", score1: "", score2: "" },
+    game2: { teams: "Leicester - Brentford", score1: "", score2: "" },
+    game3: { teams: "Everton - ManUtd", score1: "", score2: "" },
+    game4: { teams: "Arsenal - WestHam", score1: "", score2: "" },
+    game5: { teams: "Bournemouth - Wolves", score1: "", score2: "" },
+    game6: { teams: "Fulham - Palace", score1: "", score2: "" },
+    game7: { teams: "Ipswich - Tottenham", score1: "", score2: "" },
+    game8: { teams: "Soton - Brighton", score1: "", score2: "" },
+    game9: { teams: "Villa - Chelsea", score1: "", score2: "" },
+    game10: { teams: "Newcastle - Nottingham", score1: "", score2: "" },
+    game11: { teams: "ManCity - Liverpool", score1: "", score2: "" },
   });
 
   const [error, setError] = useState("");
@@ -41,7 +42,7 @@ export default function NewRound() {
     const checkPreviousSubmission = async () => {
       if (user) {
         const userRef = doc(db, "users", user.uid); // Reference to user's document
-        const guessRef = doc(userRef, "guess", "round25"); 
+        const guessRef = doc(userRef, "guess", "round26"); 
         const guessDoc = await getDoc(guessRef);
         
         if (guessDoc.exists()) {
@@ -99,7 +100,7 @@ export default function NewRound() {
 
     try {
       const userRef = doc(db, "users", user.uid); 
-      const guessRef = doc(userRef, "guess", "round25"); 
+      const guessRef = doc(userRef, "guess", "round26"); 
 
       await setDoc(guessRef, { scores: combinedScores });
 
@@ -111,16 +112,17 @@ export default function NewRound() {
 
       // Optionally reset the form after successful submission
       setScores({
-        game1: { teams: "Brighton - Chelsea", score1: "", score2: "" },
-        game2: { teams: "Leicester - Arsenal", score1: "", score2: "" },
-        game3: { teams: "Villa - Ipswich", score1: "", score2: "" },
-        game4: { teams: "Fulham - Nottingham", score1: "", score2: "" },
-        game5: { teams: "ManCity - Newcastle", score1: "", score2: "" },
-        game6: { teams: "Soton - Bournemouth", score1: "", score2: "" },
-        game7: { teams: "WestHam - Brentford", score1: "", score2: "" },
-        game8: { teams: "Palace - Everton", score1: "", score2: "" },
-        game9: { teams: "Liverpool - Wolves", score1: "", score2: "" },
-        game10: { teams: "Tottenham - ManUtd", score1: "", score2: "" },
+        game1: { teams: "Villa - Liverpool", score1: "", score2: "" },
+        game2: { teams: "Leicester - Brentford", score1: "", score2: "" },
+        game3: { teams: "Everton - ManUtd", score1: "", score2: "" },
+        game4: { teams: "Arsenal - WestHam", score1: "", score2: "" },
+        game5: { teams: "Bournemouth - Wolves", score1: "", score2: "" },
+        game6: { teams: "Fulham - Palace", score1: "", score2: "" },
+        game7: { teams: "Ipswich - Tottenham", score1: "", score2: "" },
+        game8: { teams: "Soton - Brighton", score1: "", score2: "" },
+        game9: { teams: "Villa - Chelsea", score1: "", score2: "" },
+        game10: { teams: "Newcastle - Nottingham", score1: "", score2: "" },
+        game11: { teams: "ManCity - Liverpool", score1: "", score2: "" },
       });
     } catch (error) {
       console.error("Error submitting scores: ", error);

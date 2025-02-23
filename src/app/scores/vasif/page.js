@@ -14,19 +14,22 @@ export default function VasifResults() {
   };
 
   const goalCountMessage = (predictedScore, resultScore) => {
-    const getScore = (score) => [parseInt(score.charAt(0), 10) || score.charAt(3), parseInt(score.charAt(1), 10) || null];
+    const getScore = (score) => [parseInt(score.charAt(0), 10) || 0, parseInt(score.charAt(1), 10) || 0];
     const [predictedHomeScore, predictedAwayScore] = getScore(predictedScore);
     const [resultHomeScore, resultAwayScore] = getScore(resultScore);
   
     const predictedTotal = predictedHomeScore + predictedAwayScore;
     const resultTotal = resultHomeScore + resultAwayScore;
+    
+    // Updated condition to handle totalUnder more correctly
     const totalUnder = predictedTotal < 3 && resultTotal < 3;
     const totalOver = predictedTotal > 2 && resultTotal > 2;
+    
     const homeWin = resultHomeScore > resultAwayScore && predictedHomeScore > predictedAwayScore;
     const awayWin = resultAwayScore > resultHomeScore && predictedAwayScore > predictedHomeScore;
     const draw = resultHomeScore === resultAwayScore && predictedHomeScore === predictedAwayScore;
+
     const isCorrectResult = (homeWin || awayWin || draw);
-    
     const isCorrectTotal = (totalUnder || totalOver);
   
     if (isCorrectResult && isCorrectTotal) {
@@ -36,9 +39,9 @@ export default function VasifResults() {
       return "1 xal";
     }
     
-  
     return "0 xal";
-  };
+};
+
   
 
   const compareScores = (predictedScore, actualScore) => {

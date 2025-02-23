@@ -17,7 +17,7 @@ export default function OrxanResults() {
     const getScore = (score) => [parseInt(score.charAt(0), 10) || score.charAt(3), parseInt(score.charAt(1), 10) || null];
     const [predictedHomeScore, predictedAwayScore] = getScore(predictedScore);
     const [resultHomeScore, resultAwayScore] = getScore(resultScore);
-
+  
     const predictedTotal = predictedHomeScore + predictedAwayScore;
     const resultTotal = resultHomeScore + resultAwayScore;
     const totalUnder = predictedTotal < 3 && resultTotal < 3;
@@ -25,44 +25,21 @@ export default function OrxanResults() {
     const homeWin = resultHomeScore > resultAwayScore && predictedHomeScore > predictedAwayScore;
     const awayWin = resultAwayScore > resultHomeScore && predictedAwayScore > predictedHomeScore;
     const draw = resultHomeScore === resultAwayScore && predictedHomeScore === predictedAwayScore;
-    const bothTeamsScored = resultHomeScore > 0 && resultAwayScore > 0 && predictedHomeScore > 0 && predictedAwayScore > 0;
-    const bothTeamsNotScored = (resultHomeScore === 0 || resultAwayScore === 0) && (predictedHomeScore === 0 || predictedAwayScore === 0);
-
     const isCorrectResult = (homeWin || awayWin || draw);
-    const isCorrectBTTS = (bothTeamsScored || bothTeamsNotScored);
+    
     const isCorrectTotal = (totalUnder || totalOver);
-
-    if (isCorrectResult && isCorrectBTTS && isCorrectTotal) {
-        return "3 xal";
+  
+    if (isCorrectResult && isCorrectTotal) {
+      return "2 xal";
     }
-
-    if (totalOver) {
-        if (bothTeamsScored) return "2 xal";
-        if (bothTeamsNotScored) return "2 xal";
-        if (homeWin) return "2 xal";
-        if (awayWin) return "2 xal";
-        if (draw) return "2 xal";
-        return "1 xal";
+    if (isCorrectResult || isCorrectTotal) {
+      return "1 xal";
     }
-
-    if (totalUnder) {
-        if (bothTeamsScored) return "2 xal";
-        if (bothTeamsNotScored) return "2 xal";
-        if (homeWin) return "2 xal";
-        if (awayWin) return "2 xal";
-        if (draw) return "2 xal";
-        return "1 xal";
-    }
-
-    if (bothTeamsScored) return "1 xal";
-    if (bothTeamsNotScored) return "1 xal";
-
-    if (homeWin) return "1 xal";
-    if (awayWin) return "1 xal";
-    if (draw) return "1 xal";
-
+    
+  
     return "0 xal";
   };
+  
 
   const compareScores = (predictedScore, actualScore) => {
     return predictedScore === actualScore ? "Correct" : "Wrong";

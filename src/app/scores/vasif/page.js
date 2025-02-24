@@ -14,7 +14,10 @@ export default function VasifResults() {
   };
 
   const goalCountMessage = (predictedScore, resultScore) => {
-    const getScore = (score) => [parseInt(score.charAt(0), 10) || 0, parseInt(score.charAt(1), 10) || 0];
+    const getScore = (score) => {
+      if (!resultScore) return [null, null];
+      return [parseInt(score.charAt(0), 10), parseInt(score.charAt(1), 10)];
+    };
     const [predictedHomeScore, predictedAwayScore] = getScore(predictedScore);
     const [resultHomeScore, resultAwayScore] = getScore(resultScore);
   
@@ -88,7 +91,7 @@ export default function VasifResults() {
                 const score = scores[game]?.score || "";
                 const homeScore = score.charAt(0);
                 const awayScore = score.charAt(1);
-                const resultScore = matchResults[roundName]?.[game]?.score || ""; // dynamically fetch result for the round
+                const resultScore = matchResults[roundName]?.[game]?.score || "NA"; // dynamically fetch result for the round
 
                 const comparison = compareScores(score, resultScore);
                 const goalCount = goalCountMessage(score, resultScore);

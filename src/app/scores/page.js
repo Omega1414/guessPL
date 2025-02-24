@@ -24,7 +24,7 @@ export default function Scores() {
           const guessSnapshot = await getDocs(guessRef);
 
           guessSnapshot.forEach((guessDoc) => {
-            const roundName = guessDoc.id; // The name of the round (e.g., "round25")
+            const roundName = guessDoc.id; 
             const scores = guessDoc.data().scores;
 
             // Add user scores to the array

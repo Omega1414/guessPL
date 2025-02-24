@@ -88,7 +88,7 @@ export default function AlparslanResults() {
                 const score = scores[game]?.score || "";
                 const homeScore = score.charAt(0);
                 const awayScore = score.charAt(1);
-                const resultScore = matchResults[roundName]?.[game]?.score || ""; // dynamically fetch result for the round
+                const resultScore = matchResults[roundName]?.[game]?.score || "NA"; // dynamically fetch result for the round
 
                 const comparison = compareScores(score, resultScore);
                 const goalCount = goalCountMessage(score, resultScore);

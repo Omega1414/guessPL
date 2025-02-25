@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { auth } from "../../../firebaseConfig"; // Your Firebase config file
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore"; // Modular SDK imports
+import { getFirestore, doc, setDoc, getDoc, collection, getDocs } from "firebase/firestore"; // Modular SDK imports
 import { db } from "../../../firebaseConfig"; 
 import { onAuthStateChanged } from "firebase/auth";
 
@@ -22,7 +22,7 @@ export default function NewRound() {
   const [user, setUser] = useState(null);
   const [submittedScores, setSubmittedScores] = useState(null); // Store submitted scores
   const [canSubmit, setCanSubmit] = useState(true); // Track if user can submit
-
+  const [allUserScores, setAllUserScores] = useState([]);
   // Check if user is logged in from Firebase
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -37,25 +37,7 @@ export default function NewRound() {
     return () => unsubscribe();
   }, []);
 
-  useEffect(() => {
-    const checkPreviousSubmission = async () => {
-      if (user) {
-        const userRef = doc(db, "users", user.uid); // Reference to user's document
-        const guessRef = doc(userRef, "guess", "round27"); 
-        const guessDoc = await getDoc(guessRef);
-        
-        if (guessDoc.exists()) {
-          setSubmittedScores(guessDoc.data().scores); // Show previously submitted scores
-          setCanSubmit(false); // Disable the submit button
-        } else {
-          setSubmittedScores(null); // No previous submission
-          setCanSubmit(true); // Allow submission
-        }
-      }
-    };
-
-    checkPreviousSubmission(); // Check for previous submissions when the component mounts
-  }, [user]);
+ 
 
   const handleScoreChange = (game, team, value) => {
     if (value === "" || /^[0-9]$/.test(value)) {
@@ -127,7 +109,53 @@ export default function NewRound() {
       setError("There was an error submitting the scores.");
     }
   };
+  useEffect(() => {
+    const fetchScores = async () => {
+      if (user) {
+        try {
+          const userRef = doc(db, "users", user.uid);
+          const guessRef = doc(userRef, "guess", "round27");
+          const guessDoc = await getDoc(guessRef);
 
+          if (guessDoc.exists()) {
+            setSubmittedScores(guessDoc.data().scores);
+            setCanSubmit(false);
+          } else {
+            setSubmittedScores(null);
+            setCanSubmit(true);
+          }
+
+          // Bütün istifadəçilərin göndərdiyi proqnozları çəkək
+          const usersCollection = collection(db, "users");
+          const usersSnapshot = await getDocs(usersCollection);
+
+          let allScores = [];
+
+          for (const userDoc of usersSnapshot.docs) {
+            const userData = userDoc.data();
+            const username = userData.name || "Naməlum"; // Username yoxdursa, default "Naməlum" qoyaq
+
+            const userGuessRef = doc(userDoc.ref, "guess", "round27");
+            const userGuessDoc = await getDoc(userGuessRef);
+
+            if (userGuessDoc.exists()) {
+              allScores.push({
+                username,
+                scores: userGuessDoc.data().scores,
+              });
+            }
+          }
+
+          setAllUserScores(allScores);
+        } catch (err) {
+          console.error("Xəta baş verdi:", err);
+          setError("Xalları yükləyərkən xəta baş verdi.");
+        }
+      }
+    };
+
+    fetchScores();
+  }, [user]);
   return (
     <div className="flex flex-col items-center p-6 justify-center text-center">
   
@@ -140,7 +168,29 @@ export default function NewRound() {
      
       {error && <div className="text-red-500 mt-2">{error}</div>}
       
-      {submittedScores && (
+      {submittedScores && allUserScores.length > 0 ? (
+        <div className="mt-8">
+          <h2 className="text-xl font-bold mb-4">Bu turun təxminləri</h2>
+          {allUserScores.map((userData, index) => (
+            <div key={index} className="border p-4 rounded-lg shadow-lg mb-4">
+              <h3 className="font-semibold">{userData.username}</h3>
+              {Object.keys(userData.scores).map((game) => {
+                const { teams, score } = userData.scores[game];
+                const [team1, team2] = teams.split(" - ");
+                const [score1, score2] = score.split("");
+                return (
+                  <p key={game} className="mt-1">
+                    {team1} {score1} : {score2} {team2}
+                  </p>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+        
+      )
+      :
+      submittedScores ? (
         <div className="mt-6">
         
           {Object.keys(submittedScores).map((game) => {
@@ -155,7 +205,10 @@ export default function NewRound() {
             );
           })}
         </div>
-      )}
+      )
+      :
+      null
+      }
 
       {submittedScores ? (
         <div className="mt-6">Yaxşı indi get oyunları sıx</div>

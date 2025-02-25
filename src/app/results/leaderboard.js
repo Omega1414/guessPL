@@ -88,7 +88,7 @@ export default function Leaderboard() {
   
             return (
               <div key={index} className="flex flex-row items-center justify-between">
-                <Link href={`/scores/${userName.toLowerCase()}`}>
+              <Link href={`scores/${userName.toLowerCase()}`}>
                   <div className={`text-lg cursor-pointer ${textColor}`}>
                     {index + 1}. {userName}
                   </div>

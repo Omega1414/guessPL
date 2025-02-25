@@ -14,7 +14,10 @@ export default function IslamResults() {
   };
 
   const goalCountMessage = (predictedScore, resultScore) => {
-    const getScore = (score) => [parseInt(score.charAt(0), 10) || 0, parseInt(score.charAt(1), 10) || 0];
+    const getScore = (score) => {
+      if (!resultScore) return [null, null];
+      return [parseInt(score.charAt(0), 10), parseInt(score.charAt(1), 10)];
+    };
     const [predictedHomeScore, predictedAwayScore] = getScore(predictedScore);
     const [resultHomeScore, resultAwayScore] = getScore(resultScore);
   

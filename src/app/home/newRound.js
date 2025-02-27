@@ -3,36 +3,47 @@ import { auth } from "../../../firebaseConfig"; // Your Firebase config file
 import { getFirestore, doc, setDoc, getDoc, collection, getDocs } from "firebase/firestore"; // Modular SDK imports
 import { db } from "../../../firebaseConfig"; 
 import { onAuthStateChanged } from "firebase/auth";
+import { useLoading } from "../loadingContext";
+import Loading from "@/utils/loading";
+
 
 export default function NewRound() {
+  const { loading, setLoading } = useLoading(); // Access loading state and setLoading function
   const [scores, setScores] = useState({
-    game1: { teams: "Brighton - Bournemouth", score1: "", score2: "" },
-    game2: { teams: "Palace - Villa", score1: "", score2: "" },
-    game3: { teams: "Wolves - Fulham", score1: "", score2: "" },
-    game4: { teams: "Chelsea - Soton", score1: "", score2: "" },
-    game5: { teams: "Brentford - Everton", score1: "", score2: "" },
-    game6: { teams: "ManUtd - Ipswich", score1: "", score2: "" },
-    game7: { teams: "Nottingham - Arsenal", score1: "", score2: "" },
-    game8: { teams: "Tottenham - ManCity", score1: "", score2: "" },
-    game9: { teams: "Liverpool - Newcastle", score1: "", score2: "" },
-    game10: { teams: "WestHam - Leicester", score1: "", score2: "" },
+    game1: { teams: "Nottingham - ManCity", score1: "", score2: "" },
+    game2: { teams: "Brighton - Fulham", score1: "", score2: "" },
+    game3: { teams: "Palace - Ipswich", score1: "", score2: "" },
+    game4: { teams: "Liverpool - Soton", score1: "", score2: "" },
+    game5: { teams: "Brentford - Villa", score1: "", score2: "" },
+    game6: { teams: "Wolves - Everton", score1: "", score2: "" },
+    game7: { teams: "Chelsea - Leicester", score1: "", score2: "" },
+    game8: { teams: "Tottenham - Bournemouth", score1: "", score2: "" },
+    game9: { teams: "ManUtd - Arsenal", score1: "", score2: "" },
+    game10: { teams: "WestHam - Newcastle", score1: "", score2: "" },
   });
 
   const [error, setError] = useState("");
   const [user, setUser] = useState(null);
+
   const [submittedScores, setSubmittedScores] = useState(null); // Store submitted scores
   const [canSubmit, setCanSubmit] = useState(true); // Track if user can submit
   const [allUserScores, setAllUserScores] = useState([]);
+
   // Check if user is logged in from Firebase
   useEffect(() => {
+   
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+
       if (currentUser) {
+    
         setUser(currentUser); // Set user if logged in
+   
       } else {
+       
         setUser(null); // Set user to null if not logged in
       }
     });
-
+     
     // Cleanup the listener when the component unmounts
     return () => unsubscribe();
   }, []);
@@ -81,7 +92,7 @@ export default function NewRound() {
 
     try {
       const userRef = doc(db, "users", user.uid); 
-      const guessRef = doc(userRef, "guess", "round27"); 
+      const guessRef = doc(userRef, "guess", "round28"); 
 
       await setDoc(guessRef, { scores: combinedScores });
 
@@ -93,16 +104,16 @@ export default function NewRound() {
 
       // Optionally reset the form after successful submission
       setScores({
-        game1: { teams: "Brighton - Bournemouth", score1: "", score2: "" },
-        game2: { teams: "Palace - Villa", score1: "", score2: "" },
-        game3: { teams: "Wolves - Fulham", score1: "", score2: "" },
-        game4: { teams: "Chelsea - Soton", score1: "", score2: "" },
-        game5: { teams: "Brentford - Everton", score1: "", score2: "" },
-        game6: { teams: "ManUtd - Ipswich", score1: "", score2: "" },
-        game7: { teams: "Nottingham - Arsenal", score1: "", score2: "" },
-        game8: { teams: "Tottenham - ManCity", score1: "", score2: "" },
-        game9: { teams: "Liverpool - Newcastle", score1: "", score2: "" },
-        game10: { teams: "WestHam - Leicester", score1: "", score2: "" },
+        game1: { teams: "Nottingham - ManCity", score1: "", score2: "" },
+        game2: { teams: "Brighton - Fulham", score1: "", score2: "" },
+        game3: { teams: "Palace - Ipswich", score1: "", score2: "" },
+        game4: { teams: "Liverpool - Soton", score1: "", score2: "" },
+        game5: { teams: "Brentford - Villa", score1: "", score2: "" },
+        game6: { teams: "Wolves - Everton", score1: "", score2: "" },
+        game7: { teams: "Chelsea - Leicester", score1: "", score2: "" },
+        game8: { teams: "Tottenham - Bournemouth", score1: "", score2: "" },
+        game9: { teams: "ManUtd - Arsenal", score1: "", score2: "" },
+        game10: { teams: "WestHam - Newcastle", score1: "", score2: "" },
       });
     } catch (error) {
       console.error("Error submitting scores: ", error);
@@ -112,11 +123,13 @@ export default function NewRound() {
   useEffect(() => {
     const fetchScores = async () => {
       if (user) {
+      
         try {
+          // Start fetching data
           const userRef = doc(db, "users", user.uid);
-          const guessRef = doc(userRef, "guess", "round27");
+          const guessRef = doc(userRef, "guess", "round28");
           const guessDoc = await getDoc(guessRef);
-
+  
           if (guessDoc.exists()) {
             setSubmittedScores(guessDoc.data().scores);
             setCanSubmit(false);
@@ -124,20 +137,20 @@ export default function NewRound() {
             setSubmittedScores(null);
             setCanSubmit(true);
           }
-
-          // Bütün istifadəçilərin göndərdiyi proqnozları çəkək
+  
+          // Fetch all user scores
           const usersCollection = collection(db, "users");
           const usersSnapshot = await getDocs(usersCollection);
-
+  
           let allScores = [];
-
+  
           for (const userDoc of usersSnapshot.docs) {
             const userData = userDoc.data();
-            const username = userData.name || "Naməlum"; // Username yoxdursa, default "Naməlum" qoyaq
-
-            const userGuessRef = doc(userDoc.ref, "guess", "round27");
+            const username = userData.name || "Naməlum";
+  
+            const userGuessRef = doc(userDoc.ref, "guess", "round28");
             const userGuessDoc = await getDoc(userGuessRef);
-
+  
             if (userGuessDoc.exists()) {
               allScores.push({
                 username,
@@ -145,18 +158,32 @@ export default function NewRound() {
               });
             }
           }
-
+  
           setAllUserScores(allScores);
+          setLoading(false)
+         
+       
         } catch (err) {
-          console.error("Xəta baş verdi:", err);
-          setError("Xalları yükləyərkən xəta baş verdi.");
+          console.error("Error fetching scores: ", err);
+          setError("There was an error loading the scores.");
+          
+         
+       
         }
       }
     };
-
+  
     fetchScores();
-  }, [user]);
+  }, [user]); 
+  
+  if (loading) {
+    return (
+     <Loading />
+    );
+  }
+ 
   return (
+
     <div className="flex flex-col items-center p-6 justify-center text-center">
   
       {submittedScores ? 

@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
       
       </head>
       <body className={inter.className}>
-        <Header />
+      <Header />
         {/* The 'children' will render the content of your pages */}
         {children}
       </body>

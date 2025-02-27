@@ -5,6 +5,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthState
 import { doc, getDoc, setDoc } from "firebase/firestore"; // We need setDoc to create user data in Firestore
 import { db } from "../../firebaseConfig";
 import Link from "next/link";
+import Loading from "@/utils/loading";
 
 export default function Header() {
   const [email, setEmail] = useState("");
@@ -48,7 +49,6 @@ export default function Header() {
       setLoading(false); // Once authentication check is done, set loading to false
     });
 
-    // Cleanup the listener when the component unmounts
     return () => unsubscribe();
   }, []);
 
@@ -57,19 +57,13 @@ export default function Header() {
     try {
       let userCredential;
       if (isSignUp) {
-        // Sign up user with email and password
         userCredential = await createUserWithEmailAndPassword(auth, email, password);
         
-        // Get the signed-up user
         const user = userCredential.user;
-
-        // Save user to localStorage
         localStorage.setItem("user", JSON.stringify(user));
-        
-        // Now create the user document in Firestore
         await setDoc(doc(db, "users", user.uid), {
           email: user.email,
-          name: "", // You can optionally set a default value for the user name
+          name: "", 
           createdAt: new Date(),
         });
 
@@ -89,9 +83,9 @@ export default function Header() {
 
   const handleLogout = () => {
     signOut(auth).then(() => {
-      setUser(null); // Clear the user from state
-      setUserName(""); // Clear the name as well
-      localStorage.removeItem("user"); // Remove user from localStorage
+      setUser(null); 
+      setUserName(""); 
+      localStorage.removeItem("user"); 
       alert("Logged out successfully!");
     }).catch((err) => {
       setError("Error: " + err.message);
@@ -99,7 +93,7 @@ export default function Header() {
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Show a loading indicator while checking authentication state
+    return <Loading />; 
   }
 
   return (
@@ -113,7 +107,7 @@ export default function Header() {
       
    {user ? (
         <div>
-          <span className="text-white text-sm xl:text-xl">Salam əlökü, {userName || "Guest"}</span> {/* Display name if available */}
+          <span className="text-white text-sm xl:text-xl">Salam əlökü, {userName || "Guest"}</span> 
           
           {/* <button
             onClick={handleLogout}

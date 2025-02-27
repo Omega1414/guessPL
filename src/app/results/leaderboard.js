@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
 import Link from "next/link"; // Import Link from next/link
+import Loading from "@/utils/loading";
+import { useLoading } from "../loadingContext";
 
 export default function Leaderboard() {
   const [leaderboard, setLeaderboard] = useState([]);
   const [error, setError] = useState("");
-
+ const { loading, setLoading } = useLoading(); // Access loading state and setLoading function
   const sortLeaderboard = (a, b) => b.totalPoints - a.totalPoints; // Sort by total points descending
 
   useEffect(() => {
@@ -45,6 +47,7 @@ export default function Leaderboard() {
         // Sort leaderboard by total points
         leaderboardData.sort(sortLeaderboard);
         setLeaderboard(leaderboardData);
+        setLoading(false)
       } catch (error) {
         console.error("Error fetching leaderboard: ", error);
         setError("There was an error fetching the leaderboard.");
@@ -58,10 +61,12 @@ export default function Leaderboard() {
     return <div className="text-red-500 mt-4">{error}</div>;
   }
 
-  if (leaderboard.length === 0) {
-    return <div>Loading...</div>;
-  }
 
+  if (loading) {
+    return (
+     <Loading />
+    );
+  }
   return (
     <div className="flex flex-col items-center p-6">
     <h1 className="text-2xl font-semibold">Siqmaların cədvəli</h1>

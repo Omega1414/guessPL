@@ -1,3 +1,4 @@
+"use client"
 // context/loadingContext.js
 import React, { createContext, useState, useContext } from 'react';
 

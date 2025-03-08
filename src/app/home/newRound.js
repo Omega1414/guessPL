@@ -197,23 +197,26 @@ export default function NewRound() {
       
       {submittedScores && allUserScores.length > 0 ? (
         <div className="mt-8">
-          <h2 className="text-xl font-bold mb-4">Bu turun təxminləri</h2>
-          {allUserScores.map((userData, index) => (
-            <div key={index} className="border p-4 rounded-lg shadow-lg mb-4">
-              <h3 className="font-semibold">{userData.username}</h3>
-              {Object.keys(userData.scores).map((game) => {
-                const { teams, score } = userData.scores[game];
-                const [team1, team2] = teams.split(" - ");
-                const [score1, score2] = score.split("");
-                return (
-                  <p key={game} className="mt-1">
-                    {team1} {score1} : {score2} {team2}
-                  </p>
-                );
-              })}
-            </div>
-          ))}
-        </div>
+  <h2 className="text-xl font-bold mb-4">Bu turun təxminləri</h2>
+  {allUserScores.map((userData, index) => (
+    <div key={index} className="border p-4 rounded-lg shadow-lg mb-4">
+      <h3 className="font-semibold">{userData.username}</h3>
+      {Object.keys(userData.scores)
+        .sort() // Oyunları əlifba sırasına görə sıralayırıq
+        .map((game) => {
+          const { teams, score } = userData.scores[game];
+          const [team1, team2] = teams.split(" - ");
+          const [score1, score2] = score.split("");
+          return (
+            <p key={game} className="mt-1">
+              {team1} {score1} : {score2} {team2}
+            </p>
+          );
+        })}
+    </div>
+  ))}
+</div>
+
         
       )
       :

@@ -10,16 +10,15 @@ import Loading from "@/utils/loading";
 export default function NewRound() {
   const { loading, setLoading } = useLoading(); // Access loading state and setLoading function
   const [scores, setScores] = useState({
-    game1: { teams: "Nottingham - ManCity", score1: "", score2: "" },
-    game2: { teams: "Brighton - Fulham", score1: "", score2: "" },
-    game3: { teams: "Palace - Ipswich", score1: "", score2: "" },
-    game4: { teams: "Liverpool - Soton", score1: "", score2: "" },
-    game5: { teams: "Brentford - Villa", score1: "", score2: "" },
-    game6: { teams: "Wolves - Everton", score1: "", score2: "" },
-    game7: { teams: "Chelsea - Leicester", score1: "", score2: "" },
-    game8: { teams: "Tottenham - Bournemouth", score1: "", score2: "" },
-    game9: { teams: "ManUtd - Arsenal", score1: "", score2: "" },
-    game10: { teams: "WestHam - Newcastle", score1: "", score2: "" },
+    game1: { teams: "Everton - WestHam", score1: "", score2: "" },
+    game2: { teams: "Ipswich - Nottingham", score1: "", score2: "" },
+    game3: { teams: "ManCity - Brighton", score1: "", score2: "" },
+    game4: { teams: "Soton - Wolves", score1: "", score2: "" },
+    game5: { teams: "Bournemouth - Brentford", score1: "", score2: "" },
+    game6: { teams: "Arsenal - Chelsea", score1: "", score2: "" },
+    game7: { teams: "Fulham - Tottenham", score1: "", score2: "" },
+    game8: { teams: "Leicester - ManUtd", score1: "", score2: "" },
+ 
   });
 
   const [error, setError] = useState("");
@@ -92,7 +91,7 @@ export default function NewRound() {
 
     try {
       const userRef = doc(db, "users", user.uid); 
-      const guessRef = doc(userRef, "guess", "round28"); 
+      const guessRef = doc(userRef, "guess", "round29"); 
 
       await setDoc(guessRef, { scores: combinedScores });
 
@@ -104,16 +103,14 @@ export default function NewRound() {
 
       // Optionally reset the form after successful submission
       setScores({
-        game1: { teams: "Nottingham - ManCity", score1: "", score2: "" },
-        game2: { teams: "Brighton - Fulham", score1: "", score2: "" },
-        game3: { teams: "Palace - Ipswich", score1: "", score2: "" },
-        game4: { teams: "Liverpool - Soton", score1: "", score2: "" },
-        game5: { teams: "Brentford - Villa", score1: "", score2: "" },
-        game6: { teams: "Wolves - Everton", score1: "", score2: "" },
-        game7: { teams: "Chelsea - Leicester", score1: "", score2: "" },
-        game8: { teams: "Tottenham - Bournemouth", score1: "", score2: "" },
-        game9: { teams: "ManUtd - Arsenal", score1: "", score2: "" },
-        game10: { teams: "WestHam - Newcastle", score1: "", score2: "" },
+        game1: { teams: "Everton - WestHam", score1: "", score2: "" },
+        game2: { teams: "Ipswich - Nottingham", score1: "", score2: "" },
+        game3: { teams: "ManCity - Brighton", score1: "", score2: "" },
+        game4: { teams: "Soton - Wolves", score1: "", score2: "" },
+        game5: { teams: "Bournemouth - Brentford", score1: "", score2: "" },
+        game6: { teams: "Arsenal - Chelsea", score1: "", score2: "" },
+        game7: { teams: "Fulham - Tottenham", score1: "", score2: "" },
+        game8: { teams: "Leicester - ManUtd", score1: "", score2: "" },
       });
     } catch (error) {
       console.error("Error submitting scores: ", error);
@@ -127,7 +124,7 @@ export default function NewRound() {
         try {
           // Start fetching data
           const userRef = doc(db, "users", user.uid);
-          const guessRef = doc(userRef, "guess", "round28");
+          const guessRef = doc(userRef, "guess", "round29");
           const guessDoc = await getDoc(guessRef);
   
           if (guessDoc.exists()) {
@@ -148,7 +145,7 @@ export default function NewRound() {
             const userData = userDoc.data();
             const username = userData.name || "Naməlum";
   
-            const userGuessRef = doc(userDoc.ref, "guess", "round28");
+            const userGuessRef = doc(userDoc.ref, "guess", "round29");
             const userGuessDoc = await getDoc(userGuessRef);
   
             if (userGuessDoc.exists()) {

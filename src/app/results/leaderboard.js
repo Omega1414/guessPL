@@ -68,15 +68,15 @@ export default function Leaderboard() {
     );
   }
   return (
-    <div className="flex flex-col items-center p-6">
-    <h1 className="text-2xl font-semibold">Siqmaların cədvəli</h1>
-    <div className="space-y-6 mt-6 flex flex-row h-full">
-      <div className="w-[300px] xl:w-[600px] border p-4 rounded-lg shadow-lg">
-        <h2 className="text-xl font-bold">Leaderboard</h2>
+    <div className="flex flex-col items-center p-6 ">
+   
+    <div className="space-y-6 mt-6 flex flex-row ">
+      <div className="w-[300px]  p-4  shadow-2xl">
+      <h1 className="text-xl font-semibold text-center">Siqmaların cədvəli</h1>
         <div className="space-y-4 mt-4">
           {leaderboard.map(({ userName, totalPoints }, index) => {
-            let textColor = 'text-gray-500'; // Default color for all usernames
-            let pointsColor = 'text-gray-500'; // Default color for all points
+            let textColor = 'text-gray-400'; // Default color for all usernames
+            let pointsColor = 'text-gray-400'; // Default color for all points
   
             if (index === 0) {
               textColor = 'text-green-500';  // First username (green)
@@ -92,13 +92,13 @@ export default function Leaderboard() {
             }
   
             return (
-              <div key={index} className="flex flex-row items-center justify-between">
+              <div key={index} className="flex flex-row items-center justify-between ">
               <Link href={`scores/${userName.toLowerCase()}`}>
                   <div className={`text-lg cursor-pointer ${textColor}`}>
                     {index + 1}. {userName}
                   </div>
                 </Link>
-                <div className={`text-xl font-semibold ${pointsColor}`}>{totalPoints} points</div>
+                <div className={`text-xl  ${pointsColor}`}>{totalPoints} xal</div>
               </div>
             );
           })}

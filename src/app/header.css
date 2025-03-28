@@ -1,0 +1,55 @@
+.headerCSS{
+    background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+
+}
+@keyframes lights {
+    0% {
+      color: hsl(210, 40%, 20%); /* Tünd göy rəngi */
+      text-shadow:
+        0 0 1em hsla(320, 100%, 30%, 0.2),
+        0 0 0.125em hsla(320, 100%, 40%, 0.3),
+        -1em -0.125em 0.5em hsla(40, 100%, 40%, 0),
+        1em 0.125em 0.5em hsla(200, 100%, 30%, 0);
+    }
+    
+    30% { 
+      color: hsl(210, 60%, 30%); /* Tünd göy rəngi */
+      text-shadow:
+        0 0 1em hsla(320, 100%, 40%, 0.5),
+        0 0 0.125em hsla(320, 100%, 50%, 0.5),
+        -0.5em -0.125em 0.25em hsla(40, 100%, 50%, 0.2),
+        0.5em 0.125em 0.25em hsla(200, 100%, 40%, 0.4);
+    }
+    
+    40% { 
+      color: hsl(210, 80%, 40%); /* Tünd göy rəngi */
+      text-shadow:
+        0 0 1em hsla(320, 100%, 50%, 0.5),
+        0 0 0.125em hsla(320, 100%, 70%, 0.5),
+        -0.25em -0.125em 0.125em hsla(40, 100%, 50%, 0.2),
+        0.25em 0.125em 0.125em hsla(200, 100%, 40%, 0.4);
+    }
+    
+    70% {
+      color: hsl(210, 60%, 30%); /* Tünd göy rəngi */
+      text-shadow:
+        0 0 1em hsla(320, 100%, 50%, 0.5),
+        0 0 0.125em hsla(320, 100%, 60%, 0.5),
+        0.5em -0.125em 0.25em hsla(40, 100%, 50%, 0.2),
+        -0.5em 0.125em 0.25em hsla(200, 100%, 40%, 0.4);
+    }
+    
+    100% {
+      color: hsl(210, 40%, 20%); /* Tünd göy rəngi */
+      text-shadow:
+        0 0 1em hsla(320, 100%, 30%, 0.2),
+        0 0 0.125em hsla(320, 100%, 40%, 0.3),
+        1em -0.125em 0.5em hsla(40, 100%, 40%, 0),
+        -1em 0.125em 0.5em hsla(200, 100%, 30%, 0);
+    }
+  }
+  
+  .lights {
+    animation: lights 5s 750ms linear infinite;
+  }
+  

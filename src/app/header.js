@@ -6,7 +6,9 @@ import { doc, getDoc, setDoc } from "firebase/firestore"; // We need setDoc to c
 import { db } from "../../firebaseConfig";
 import Link from "next/link";
 import Loading from "@/utils/loading";
-
+import Image from "next/image";
+import headerImg from "../../public/header1.png"
+import "./header.css"
 export default function Header() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -97,9 +99,9 @@ export default function Header() {
   }
 
   return (
-    <div className="header flex justify-between items-center p-4 bg-blue-900 text-white">
+    <div className="header flex justify-between items-center p-2 text-white headerCSS">
       <Link href={"/"}> 
-        <h1 className="text-sm xl:text-2xl">Kaybedenler klübü</h1>
+        <Image src={headerImg} alt="header" width={150} className="ml-2"  />
       </Link>
       {/* Conditional Rendering: Show Login/Sign Up if not logged in */}
      
@@ -107,7 +109,7 @@ export default function Header() {
       
    {user ? (
         <div>
-          <span className="text-white text-sm xl:text-xl">Salam əlökü, {userName || "Guest"}</span> 
+          <span className="text-blue-700 text-[16px] font-semibold lights xl:text-xl">Salam əlökü, {userName || "Guest"}</span> 
           
           {/* <button
             onClick={handleLogout}

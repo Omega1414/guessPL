@@ -11,6 +11,9 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      boxShadow: {
+        'heavy': '0px 10px 30px rgba(0, 0, 0, 0.5)', // 2x-dən daha ağır shadow
+      },
     },
   },
   plugins: [],

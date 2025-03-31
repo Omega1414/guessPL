@@ -199,8 +199,8 @@ export default function NewRound() {
         <div className="mt-8">
   <h2 className="text-xl font-bold mb-4">Bu turun təxminləri</h2>
   {allUserScores.map((userData, index) => (
-    <div key={index} className="border p-4 rounded-lg shadow-lg mb-4">
-      <h3 className="font-semibold">{userData.username}</h3>
+    <div key={index} className=" p-4 rounded-lg shadow-heavy mt-[30px] mb-4">
+      <h3 className="font-semibold mb-4 text-[18px]">{userData.username}</h3>
       {Object.keys(userData.scores)
         .sort() // Oyunları əlifba sırasına görə sıralayırıq
         .map((game) => {
@@ -208,9 +208,25 @@ export default function NewRound() {
           const [team1, team2] = teams.split(" - ");
           const [score1, score2] = score.split("");
           return (
-            <p key={game} className="mt-1">
-              {team1} {score1} : {score2} {team2}
-            </p>
+            <div key={game} className="mt-1 flex w-[300px] justify-between">
+            <div className="w-[120px]">
+            <h1 >
+            {team1}
+            </h1>
+            </div>
+           <div className="justify-center items-center">
+           <h1 >
+            {score1} : {score2}
+            </h1>
+           </div>
+           <div className="w-[120px]">
+           <h1 >
+            {team2}
+            </h1>
+           </div>
+          
+                
+            </div>
           );
         })}
     </div>

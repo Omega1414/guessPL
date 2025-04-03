@@ -10,16 +10,16 @@ import Loading from "@/utils/loading";
 export default function NewRound() {
   const { loading, setLoading } = useLoading(); // Access loading state and setLoading function
   const [scores, setScores] = useState({
-    game1: { teams: "Arsenal - Fulham", score1: "", score2: "" },
-    game2: { teams: "Wolves - WestHam", score1: "", score2: "" },
-    game3: { teams: "Nottingham - ManUtd", score1: "", score2: "" },
-    game4: { teams: "Bournemouth - Ipswich", score1: "", score2: "" },
-    game5: { teams: "Brighton - Villa", score1: "", score2: "" },
-    game6: { teams: "ManCity - Leicester", score1: "", score2: "" },
-    game7: { teams: "Newcastle - Brentford", score1: "", score2: "" },
-    game8: { teams: "Soton - Palace", score1: "", score2: "" },
-    game9: { teams: "Liverpool - Everton", score1: "", score2: "" },
-    game10: { teams: "Chelsea - Tottenham", score1: "", score2: "" },
+    game1: { teams: "Everton - Arsenal", score1: "", score2: "" },
+    game2: { teams: "Palace - Brighton", score1: "", score2: "" },
+    game3: { teams: "Ipswich - Wolves", score1: "", score2: "" },
+    game4: { teams: "WestHam - Bournemouth", score1: "", score2: "" },
+    game5: { teams: "Villa - Nottingham", score1: "", score2: "" },
+    game6: { teams: "Brentford - Chelsea", score1: "", score2: "" },
+    game7: { teams: "Fulham - Liverpool", score1: "", score2: "" },
+    game8: { teams: "Tottenham - Soton", score1: "", score2: "" },
+    game9: { teams: "ManUtd - ManCity", score1: "", score2: "" },
+    game10: { teams: "Leicester - Newcastle", score1: "", score2: "" },
   });
 
   const [error, setError] = useState("");
@@ -92,7 +92,7 @@ export default function NewRound() {
 
     try {
       const userRef = doc(db, "users", user.uid); 
-      const guessRef = doc(userRef, "guess", "round30"); 
+      const guessRef = doc(userRef, "guess", "round31"); 
 
       await setDoc(guessRef, { scores: combinedScores });
 
@@ -104,16 +104,16 @@ export default function NewRound() {
 
       // Optionally reset the form after successful submission
       setScores({
-    game1: { teams: "Arsenal - Fulham", score1: "", score2: "" },
-    game2: { teams: "Wolves - WestHam", score1: "", score2: "" },
-    game3: { teams: "Nottingham - ManUtd", score1: "", score2: "" },
-    game4: { teams: "Bournemouth - Ipswich", score1: "", score2: "" },
-    game5: { teams: "Brighton - Villa", score1: "", score2: "" },
-    game6: { teams: "ManCity - Leicester", score1: "", score2: "" },
-    game7: { teams: "Newcastle - Brentford", score1: "", score2: "" },
-    game8: { teams: "Soton - Palace", score1: "", score2: "" },
-    game9: { teams: "Liverpool - Everton", score1: "", score2: "" },
-    game10: { teams: "Chelsea - Tottenham", score1: "", score2: "" },
+        game1: { teams: "Everton - Arsenal", score1: "", score2: "" },
+        game2: { teams: "Palace - Brighton", score1: "", score2: "" },
+        game3: { teams: "Ipswich - Wolves", score1: "", score2: "" },
+        game4: { teams: "WestHam - Bournemouth", score1: "", score2: "" },
+        game5: { teams: "Villa - Nottingham", score1: "", score2: "" },
+        game6: { teams: "Brentford - Chelsea", score1: "", score2: "" },
+        game7: { teams: "Fulham - Liverpool", score1: "", score2: "" },
+        game8: { teams: "Tottenham - Soton", score1: "", score2: "" },
+        game9: { teams: "ManUtd - ManCity", score1: "", score2: "" },
+        game10: { teams: "Leicester - Newcastle", score1: "", score2: "" },
       });
     } catch (error) {
       console.error("Error submitting scores: ", error);
@@ -127,7 +127,7 @@ export default function NewRound() {
         try {
           // Start fetching data
           const userRef = doc(db, "users", user.uid);
-          const guessRef = doc(userRef, "guess", "round30");
+          const guessRef = doc(userRef, "guess", "round31");
           const guessDoc = await getDoc(guessRef);
   
           if (guessDoc.exists()) {
@@ -148,7 +148,7 @@ export default function NewRound() {
             const userData = userDoc.data();
             const username = userData.name || "Naməlum";
   
-            const userGuessRef = doc(userDoc.ref, "guess", "round30");
+            const userGuessRef = doc(userDoc.ref, "guess", "round31");
             const userGuessDoc = await getDoc(userGuessRef);
   
             if (userGuessDoc.exists()) {

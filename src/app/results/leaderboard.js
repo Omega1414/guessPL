@@ -68,37 +68,23 @@ export default function Leaderboard() {
     );
   }
   return (
-    <div className="flex flex-col items-center p-6 ">
+    <div className="flex flex-col items-center p-6 font-robotoMono">
    
     <div className="space-y-6 mt-6 flex flex-row ">
-      <div className="w-[300px]  p-4  shadow-2xl">
-      <h1 className="text-xl font-semibold text-center">Siqmaların cədvəli</h1>
-        <div className="space-y-4 mt-4">
+      <div className="w-[300px] p-4 shadow-heavy">
+      <h1 className="text-lg text-gray-200 font-semibold  text-center">Turnir cədvəli</h1>
+        <div className="space-y-4 mt-6">
           {leaderboard.map(({ userName, totalPoints }, index) => {
-            let textColor = 'text-gray-400'; // Default color for all usernames
-            let pointsColor = 'text-gray-400'; // Default color for all points
-  
-            if (index === 0) {
-              textColor = 'text-green-500';  // First username (green)
-              pointsColor = 'text-green-500'; // First points (green)
-            }
-            if (index === 1) {
-              textColor = 'text-yellow-500'; // Second username (yellow)
-              pointsColor = 'text-yellow-500'; // Second points (yellow)
-            }
-            if (index === 2) {
-              textColor = 'text-blue-500';   // Third username (blue)
-              pointsColor = 'text-blue-500'; // Third points (blue)
-            }
+           
   
             return (
               <div key={index} className="flex flex-row items-center justify-between ">
               <Link href={`scores/${userName.toLowerCase()}`}>
-                  <div className={`text-lg cursor-pointer ${textColor}`}>
+                  <div className="text-lg cursor-pointer   text-gray-200">
                     {index + 1}. {userName}
                   </div>
                 </Link>
-                <div className={`text-xl  ${pointsColor}`}>{totalPoints} xal</div>
+                <div className="text-lg font-semibold  text-gray-200">{totalPoints} xal</div>
               </div>
             );
           })}

@@ -1,15 +1,18 @@
 import './globals.css';  // You can import global styles here
-import { Inter } from 'next/font/google';
+import { Roboto_Mono } from 'next/font/google';
 import Header from './header';
-import Head from 'next/head';  // Import Head
+
 import { LoadingProvider } from './loadingContext';
 
-// Example of using a Google font (Inter)
-const inter = Inter({ subsets: ['latin'] });
+export const robotoMono = Roboto_Mono({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-roboto-mono",
+});
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en"  className={`${robotoMono.variable}  `}>
       <head>
   
           {/* Global title (can be overwritten on a per-page basis) */}
@@ -18,7 +21,9 @@ export default function RootLayout({ children }) {
           {/* You can add other meta tags here */}
       
       </head>
-      <body className={inter.className}>
+      <body
+       
+      >
       <LoadingProvider>
       <Header />
         {/* The 'children' will render the content of your pages */}

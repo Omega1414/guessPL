@@ -14,6 +14,10 @@ export default {
       boxShadow: {
         'heavy': '0px 10px 30px rgba(0, 0, 0, 0.5)', // 2x-dən daha ağır shadow
       },
+      fontFamily: {
+        robotoMono: ['var(--font-roboto-mono)'],
+    
+      },
     },
   },
   plugins: [],

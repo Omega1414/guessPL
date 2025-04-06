@@ -186,23 +186,22 @@ export default function NewRound() {
 
     <div className="flex flex-col items-center p-6 justify-center text-center">
   
-      {submittedScores ? 
-        <p>Babat osturağa basmısan, uğurlar. </p>
-      :
-      
-        <p>Nostradamus yığını, tur başlamadan öz təxminlərinizi yazın:</p>
-      }
+   
      
       {error && <div className="text-red-500 mt-2">{error}</div>}
       
       {submittedScores && allUserScores.length > 0 ? (
-        <div className="mt-8">
-  <h2 className="text-xl font-bold mb-4">Bu turun təxminləri</h2>
+        <div className="mt-4 font-robotoMono ">
+  <h2 className="text-[20px] font-semibold mb-2">Təxminləriniz</h2>
   {allUserScores.map((userData, index) => (
-    <div key={index} className=" p-4 rounded-lg shadow-heavy mt-[30px] mb-4">
+    <div key={index} className=" p-4 rounded-lg shadow-heavy mt-[30px] mb-4 space-y-1">
       <h3 className="font-semibold mb-4 text-[18px]">{userData.username}</h3>
       {Object.keys(userData.scores)
-        .sort() // Oyunları əlifba sırasına görə sıralayırıq
+        .sort((a, b) => {
+    const aNum = parseInt(a.replace("game", ""));
+    const bNum = parseInt(b.replace("game", ""));
+    return aNum - bNum;
+  })
         .map((game) => {
           const { teams, score } = userData.scores[game];
           const [team1, team2] = teams.split(" - ");
@@ -257,7 +256,7 @@ export default function NewRound() {
       }
 
       {submittedScores ? (
-        <div className="mt-6">Yaxşı indi get oyunları sıx</div>
+        <div className="mt-1"></div>
       ) : (
         <div className="space-y-4 mt-6">
           {Object.keys(scores).map((game) => {

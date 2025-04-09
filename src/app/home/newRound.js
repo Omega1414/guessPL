@@ -62,7 +62,7 @@ export default function NewRound() {
         },
       });
     } else {
-      setError("Please enter a valid digit (0-9).");
+      setError("Sadəcə 0-9 rəqəmləri daxil edin");
     }
   };
 
@@ -82,7 +82,7 @@ export default function NewRound() {
     for (const game in scores) {
       const { score1, score2 } = scores[game];
       if (!score1 || !score2) {
-        setError("Please enter both scores for each game.");
+        setError("Zəhmət olmasa bütün hesabları daxil edin");
         return;
       }
       combinedScores[game] = { 
@@ -118,7 +118,7 @@ export default function NewRound() {
     game11: { teams: "Newcastle - Palace", score1: "", score2: "" },
       });
     } catch (error) {
-      console.error("Error submitting scores: ", error);
+ 
       setError("There was an error submitting the scores.");
     }
   };
@@ -166,7 +166,7 @@ export default function NewRound() {
          
        
         } catch (err) {
-          console.error("Error fetching scores: ", err);
+         
           setError("There was an error loading the scores.");
           
          
@@ -190,7 +190,7 @@ export default function NewRound() {
   
 
      
-      {error && <div className="text-red-500 mt-2">{error}</div>}
+      {error && <div className="text-white-500 mt-2">{error}</div>}
       
       {submittedScores && allUserScores.length > 0 ? (
         <div className="mt-4 font-robotoMono ">
@@ -273,7 +273,7 @@ export default function NewRound() {
                     onChange={(e) => handleScoreChange(game, "score1", e.target.value)}
                     onKeyDown={handleKeyDown}
                         className="border p-2 rounded mt-2 text-black w-[100px] xl:w-[200px]"
-                    placeholder="Cəld"
+                    placeholder="Ev"
                     maxLength="1"
                     required
                     disabled={!canSubmit} // Disable if already submitted
@@ -290,7 +290,7 @@ export default function NewRound() {
                     onChange={(e) => handleScoreChange(game, "score2", e.target.value)}
                     onKeyDown={handleKeyDown}
                     className="border p-2 rounded mt-2 text-black w-[100px] xl:w-[200px]"
-                    placeholder="ol"
+                    placeholder="Səfər"
                     maxLength="1"
                     required
                     disabled={!canSubmit} // Disable if already submitted
@@ -307,7 +307,7 @@ export default function NewRound() {
         className="mt-6 bg-blue-500 text-white py-2 px-6 rounded"
         disabled={!canSubmit} // Disable button if submission is not allowed
       >
-        Osturağa bas
+        Təstiqlə
       </button>
       : null}
    

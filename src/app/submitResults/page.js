@@ -5,16 +5,16 @@ import { db } from "../../../firebaseConfig";
 
 export default function SubmitResults() {
   const [scores, setScores] = useState({
-    game1: { teams: "Fulham - Everton", score:"" },
-        game2: { teams: "Ipswich - Brentford", score:"" },
-        game3: { teams: "Soton - ManCity", score:""},
-        game4: { teams: "Wolves - Brighton", score:"" },
-        game5: { teams: "Bournemouth - Villa", score:"" },
-        game6: { teams: "Newcastle - Chelsea", score:"" },
-        game7: { teams: "ManUtd - WestHam", score:"" },
-        game8: { teams: "Nottingham - Leicester", score:"" },
-        game9: { teams: "Tottenham - Palace", score:"" },
-        game10: { teams: "Liverpool - Arsenal", score:"" },
+        game1: { teams: "Villa - Tottenham", score:"" },
+        game2: { teams: "Chelsea - ManUtd", score:"" },
+        game3: { teams: "Everton - Soton", score:""},
+        game4: { teams: "WestHam - Nottingham", score:"" },
+        game5: { teams: "Brentford - Fulham", score:"" },
+        game6: { teams: "Leicester - Ipswich", score:"" },
+        game7: { teams: "Arsenal - Newcastle", score:"" },
+        game8: { teams: "Brighton - Liverpool", score:"" },
+        game9: { teams: "Palace - Wolves", score:"" },
+        game10: { teams: "ManCity - Bournemouth", score:"" },
   });
 
   const [error, setError] = useState("");
@@ -71,7 +71,7 @@ export default function SubmitResults() {
 
     try {
       const resultsRef = collection(db, "matchResults"); // Collection for all match results
-      const round25Ref = doc(resultsRef, "round36"); 
+      const round25Ref = doc(resultsRef, "round37"); 
 
       await setDoc(round25Ref, { scores: scores });
 
@@ -79,16 +79,16 @@ export default function SubmitResults() {
 
       // Optionally, reset the form after successful submission
       setScores({
-        game1: { teams: "Fulham - Everton", score:"" },
-        game2: { teams: "Ipswich - Brentford", score:"" },
-        game3: { teams: "Soton - ManCity", score:""},
-        game4: { teams: "Wolves - Brighton", score:"" },
-        game5: { teams: "Bournemouth - Villa", score:"" },
-        game6: { teams: "Newcastle - Chelsea", score:"" },
-        game7: { teams: "ManUtd - WestHam", score:"" },
-        game8: { teams: "Nottingham - Leicester", score:"" },
-        game9: { teams: "Tottenham - Palace", score:"" },
-        game10: { teams: "Liverpool - Arsenal", score:"" },
+        game1: { teams: "Villa - Tottenham", score:"" },
+        game2: { teams: "Chelsea - ManUtd", score:"" },
+        game3: { teams: "Everton - Soton", score:""},
+        game4: { teams: "WestHam - Nottingham", score:"" },
+        game5: { teams: "Brentford - Fulham", score:"" },
+        game6: { teams: "Leicester - Ipswich", score:"" },
+        game7: { teams: "Arsenal - Newcastle", score:"" },
+        game8: { teams: "Brighton - Liverpool", score:"" },
+        game9: { teams: "Palace - Wolves", score:"" },
+        game10: { teams: "ManCity - Bournemouth", score:"" },
       });
     } catch (error) {
       console.error("Error submitting scores: ", error);

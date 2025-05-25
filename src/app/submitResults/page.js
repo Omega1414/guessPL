@@ -5,16 +5,16 @@ import { db } from "../../../firebaseConfig";
 
 export default function SubmitResults() {
   const [scores, setScores] = useState({
-        game1: { teams: "Villa - Tottenham", score:"" },
-        game2: { teams: "Chelsea - ManUtd", score:"" },
-        game3: { teams: "Everton - Soton", score:""},
-        game4: { teams: "WestHam - Nottingham", score:"" },
-        game5: { teams: "Brentford - Fulham", score:"" },
-        game6: { teams: "Leicester - Ipswich", score:"" },
-        game7: { teams: "Arsenal - Newcastle", score:"" },
-        game8: { teams: "Brighton - Liverpool", score:"" },
-        game9: { teams: "Palace - Wolves", score:"" },
-        game10: { teams: "ManCity - Bournemouth", score:"" },
+    game1: { teams: "Bournemouth - Leicester", score:""},
+    game2: { teams: "Fulham - ManCity", score:"" },
+    game3: { teams: "Ipswich - WestHam", score:""},
+    game4: { teams: "Liverpool - Palace", score:"" },
+    game5: { teams: "ManUtd - Villa", score:"" },
+    game6: { teams: "Newcastle - Everton", score:""},
+    game7: { teams: "Nottingham - Chelsea", score:"" },
+    game8: { teams: "Soton - Arsenal", score:"" },
+    game9: { teams: "Tottenham - Brighton", score:"" },
+    game10: { teams: "Wolves - Brentford", score:"" },
   });
 
   const [error, setError] = useState("");

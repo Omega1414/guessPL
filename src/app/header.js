@@ -7,7 +7,7 @@ import { db } from "../../firebaseConfig";
 import Link from "next/link";
 import Loading from "@/utils/loading";
 import Image from "next/image";
-import headerImg from "../../public/headIsi.png"
+import headerImg from "../../public/header1.png"
 import "./header.css"
 export default function Header() {
   const [email, setEmail] = useState("");
